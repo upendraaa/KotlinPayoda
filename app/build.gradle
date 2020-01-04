@@ -19,6 +19,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -38,6 +39,8 @@ dependencies {
     def moshiVersion="1.8.0"
     def glideVersion ="4.4.0"
     def kodein="4.1.0"
+    def room_version = "2.2.3"
+
 
 
 
@@ -81,4 +84,11 @@ dependencies {
 
     implementation "com.github.salomonbrys.kodein:kodein:$kodein"
     implementation "com.github.salomonbrys.kodein:kodein-android:$kodein"
+
+    //room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+
 }
