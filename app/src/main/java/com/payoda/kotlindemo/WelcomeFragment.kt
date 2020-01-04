@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.payoda.kotlindemo.database.ApplicationDatabase
-import com.payoda.kotlindemo.database.User
 import com.payoda.kotlindemo.databinding.FragmentWelcomeBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val ARG_PARAM1 = "param1"
 
@@ -44,6 +46,7 @@ class WelcomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setData()
+        onClick()
     }
 
     override fun onDetach() {
@@ -61,25 +64,43 @@ class WelcomeFragment : Fragment() {
             }
     }
 
+    /**
+     * This is simple example to add
+     * and read the data from the database in different thread
+     * and display the result on main thread by Using Dispatcher
+     */
+
     fun setData() {
         val db = context?.let { ApplicationDatabase(it) }
 
         GlobalScope.launch {
-            db!!.UserDao().insertAllUsers(
-                User(
-                    "0002", "Upendra",
-                    "Singh", "9611849076", "upendraaa@gmail.com"
-                )
-            )
-            var data = db.UserDao().getAllUsers()
+            /* db!!.UserDao().insertAllUsers(
+                 User(
+                     "0002", "Upendra",
+                     "Singh", "9611849076", "upendraaa@gmail.com"
+                 )
+             )*/
+            var data = db!!.UserDao().getAllUsers()
 
-            data?.forEach {
-                //                binding!!.tvData.append(it.firstName +",")
-//                binding!!.tvData.append(it.lastName +",")
-//                binding!!.tvData.append(it.mobileNumber +",")
-//                binding!!.tvData.append(it.emailId +",")
+            withContext(Dispatchers.Main) {
+                data?.forEach {
+                    binding!!.tvData.append("\n*********************\n")
+                    binding!!.tvData.append(it.firstName + ",")
+                    binding!!.tvData.append(it.lastName + ",")
+                    binding!!.tvData.append(it.mobileNumber + ",")
+                    binding!!.tvData.append(it.emailId + ",")
 
-                println(it)
+                    println(it)
+                }
+            }
+        }
+    }
+
+    fun onClick() {
+        binding!!.btnSubmit.setOnClickListener { view ->
+            run {
+                view.findNavController()
+                    .navigate(R.id.action_welcomeFragment_to_registrationFragment)
             }
         }
     }

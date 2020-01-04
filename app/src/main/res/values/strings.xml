@@ -3,5 +3,12 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="user_info">Profile details</string>
     <string name="welcome">Welcome</string>
+    <string name="submit">Submit</string>
+    <string name="name">Name</string>
+    <string name="userId">User Id</string>
+    <string name="passowrd">Password</string>
+    <string name="phone_number">Mobile Number</string>
+    <string name="email_Id">Email Id</string>
 </resources>
